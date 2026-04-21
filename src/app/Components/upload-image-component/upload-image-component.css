@@ -1,0 +1,19 @@
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.drag-over {
+  transform: scale(1.02);
+  border-style: solid !important;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 77, 58, 0.1)) !important;
+}
+
+.border-3 {
+  border-width: 3px;
+}

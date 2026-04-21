@@ -1,0 +1,17 @@
+nav {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.active {
+  color: #a7f3d0;
+}
+
+.active::after {
+  width: 100% !important;
+}
+
+@media (max-width: 767px) {
+  .md\:hidden {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

@@ -1,0 +1,12 @@
+input::placeholder {
+  transition: all 0.3s ease;
+}
+
+input:focus::placeholder {
+  opacity: 0.5;
+  transform: translateX(5px);
+}
+
+button:active {
+  transform: scale(0.98);
+}

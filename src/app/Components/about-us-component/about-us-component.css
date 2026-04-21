@@ -1,0 +1,12 @@
+@layer components {
+  .playfair {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #0e4d3a, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
