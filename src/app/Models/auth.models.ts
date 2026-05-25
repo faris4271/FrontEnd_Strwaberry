@@ -15,10 +15,27 @@ export interface AuthResponse {
 }
 
 export interface RefreshTokenRequest {
-  tokenString: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface User {
   email: string;
   userName?: string;
+  roles?: string[];
+}
+
+export interface SendResetPasswordRequest {
+  email: string;
+}
+
+export interface ConfirmResetPasswordRequest {
+  email: string;
+  code: string;
+}
+
+export interface ResetPasswordRequest {
+  email: string;
+  code: string;
+  Password: string;
 }

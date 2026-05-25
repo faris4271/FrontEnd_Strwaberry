@@ -2,10 +2,10 @@
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-12">
       <span class="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold mb-4 animate-pulse-slow">
-        About Us
+        {{ 'about.badge' | translate }}
       </span>
       <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 animate-fade-in-up">
-        About BerryBeat
+        {{ 'about.title' | translate }}
       </h2>
       <div class="h-1 w-20 bg-gradient-to-r from-[#0e4d3a] to-emerald-500 mx-auto rounded-full"></div>
     </div>
@@ -14,31 +14,29 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
         <div class="p-8 md:p-12 lg:p-16 animate-fade-in-left">
           <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
-            The system that applies 
-            <span class="gradient-text">artificial intelligence</span> 
-            in agriculture
+            {{ 'about.hero.title' | translate }}
           </h1>
           <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-            Through this work, we seek smarter farming practices, improved crop quality, and reduced agricultural losses. Our AI-powered platform helps farmers detect strawberry diseases early and provides actionable treatment recommendations.
+            {{ 'about.hero.subtitle' | translate }}
           </p>
           
           <div class="space-y-4 mb-8">
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl">✓</div>
-              <span class="text-gray-700">Early disease detection</span>
+              <span class="text-gray-700">{{ 'about.features.earlyDetection' | translate }}</span>
             </div>
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl">✓</div>
-              <span class="text-gray-700">Instant AI-powered analysis</span>
+              <span class="text-gray-700">{{ 'about.features.instantAnalysis' | translate }}</span>
             </div>
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl">✓</div>
-              <span class="text-gray-700">Detailed treatment guides</span>
+              <span class="text-gray-700">{{ 'about.features.treatmentGuides' | translate }}</span>
             </div>
           </div>
 
-          <button type="button" class="btn-primary bg-gradient-to-r from-[#ff3b30] to-red-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 transform hover:-translate-y-1" (click)="onUploadClick()">
-            Upload Image
+          <button routerLink="/upload" type="button" class="btn-primary bg-gradient-to-r from-[#ff3b30] to-red-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300 transform hover:-translate-y-1" (click)="onUploadClick()">
+            {{ 'about.btn.upload' | translate }}
           </button>
         </div>
 
@@ -48,19 +46,19 @@
               <div class="absolute inset-0 bg-white/20 rounded-3xl transform rotate-6 animate-pulse-slow"></div>
               <div class="relative bg-white/10 backdrop-blur-sm rounded-3xl p-12 transform hover:scale-105 transition-transform duration-500">
                 <div class="text-8xl mb-6 animate-float">🍓</div>
-                <div class="text-white text-xl font-semibold">Smart Agriculture</div>
-                <div class="text-white/70 text-sm mt-2">Powered by AI</div>
+                <div class="text-white text-xl font-semibold">{{ 'about.hero.smartAg' | translate }}</div>
+                <div class="text-white/70 text-sm mt-2">{{ 'about.hero.poweredByAi' | translate }}</div>
               </div>
             </div>
             
             <div class="mt-8 grid grid-cols-2 gap-4">
               <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4">
                 <div class="text-3xl font-bold text-white">98%</div>
-                <div class="text-white/70 text-sm">Accuracy</div>
+                <div class="text-white/70 text-sm">{{ 'about.stats.accuracy' | translate }}</div>
               </div>
               <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                <div class="text-3xl font-bold text-white">50+</div>
-                <div class="text-white/70 text-sm">Diseases</div>
+                <div class="text-3xl font-bold text-white">7+</div>
+                <div class="text-white/70 text-sm">{{ 'about.stats.diseases' | translate }}</div>
               </div>
             </div>
           </div>

@@ -1,71 +1,97 @@
 <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 flex flex-col justify-between p-6">
-  <div class="absolute top-10 right-10 text-6xl opacity-20 animate-float">🍓</div>
-  <div class="absolute bottom-20 left-10 text-4xl opacity-20 animate-float delay-500">🍃</div>
+  <div class="absolute top-10 end-10 text-6xl opacity-20 animate-float">🍓</div>
+  <div class="absolute bottom-20 start-10 text-4xl opacity-20 animate-float delay-500">🍃</div>
   
   <main class="grow flex items-center justify-center relative z-10">
     <div class="w-full max-w-md bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-gray-100 animate-scale-in">
       <div class="text-center mb-8">
         <div class="text-4xl mb-4 animate-pulse-slow">🍓</div>
-        <h2 class="text-3xl font-bold gradient-text">Create Account</h2>
-        <p class="text-gray-500 mt-2">Join BerryBeat and start detecting</p>
+        <h2 class="text-3xl font-bold gradient-text">{{ 'register.title' | translate }}</h2>
+        <p class="text-gray-500 mt-2">{{ 'register.subtitle' | translate }}</p>
       </div>
       
-      <form class="space-y-5">
-        <div class="relative">
-          <input type="text" placeholder="Username" 
-                 class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
-        </div>
-        
-        <div class="relative">
-          <input type="email" placeholder="Email" 
-                 class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
-        </div>
-        
-        <div class="relative">
-          <input type="password" placeholder="Password" 
-                 class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
-        </div>
-        
-        <div class="relative">
-          <input type="password" placeholder="Confirm Password" 
-                 class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
-        </div>
-        
-        <div class="flex items-start gap-2">
-          <input type="checkbox" id="terms" class="mt-1 w-4 h-4 rounded accent-emerald-500">
-          <label for="terms" class="text-sm text-gray-600">
-            I agree to the <a href="#" class="text-emerald-600 hover:underline">Terms of Service</a> and <a href="#" class="text-emerald-600 hover:underline">Privacy Policy</a>
-          </label>
-        </div>
-        
-        <button routerLink="/home" class="w-full btn-primary bg-gradient-to-r from-[#10b981] to-emerald-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 transform hover:-translate-y-0.5">
-          Create Account
-        </button>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
+         <div class="relative">
+           <input type="text" formControlName="fullName" [placeholder]="'register.placeholder.fullName' | translate" 
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
+           @if (registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched) {
+             <p class="text-red-500 text-sm mt-1">{{ 'register.error.fullName' | translate }}</p>
+           }
+         </div>
+          
+         <div class="relative">
+           <input type="text" formControlName="userName" [placeholder]="'register.placeholder.userName' | translate" 
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
+           @if (registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched) {
+             <p class="text-red-500 text-sm mt-1">{{ 'register.error.userName' | translate }}</p>
+           }
+         </div>
+          
+         <div class="relative">
+           <input type="email" formControlName="email" [placeholder]="'register.placeholder.email' | translate" 
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
+           @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+             <p class="text-red-500 text-sm mt-1">{{ 'register.error.email' | translate }}</p>
+           }
+         </div>
+          
+         <div class="relative">
+           <input type="text" formControlName="address" [placeholder]="'register.placeholder.address' | translate" 
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
+         </div>
+          
+         <div class="relative">
+           <input type="text" formControlName="country" [placeholder]="'register.placeholder.country' | translate" 
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
+         </div>
+          
+         <div class="relative">
+           <input type="tel" formControlName="phoneNumber" [placeholder]="'register.placeholder.phone' | translate" 
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
+         </div>
+          
+         <div class="relative">
+           <input type="password" formControlName="password" [placeholder]="'register.placeholder.password' | translate" 
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
+           @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+             <p class="text-red-500 text-sm mt-1">{{ 'register.error.password' | translate }}</p>
+           }
+         </div>
+          
+         <div class="relative">
+           <input type="password" formControlName="confirmPassword" [placeholder]="'register.placeholder.confirmPassword' | translate" 
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl bg-white/50 focus:border-emerald-500 focus:bg-white transition-all duration-300">
+           @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
+             <p class="text-red-500 text-sm mt-1">{{ 'register.error.confirmPassword' | translate }}</p>
+           }
+         </div>
+          
+         <div class="flex items-start gap-2">
+           <input type="checkbox" id="terms" formControlName="agreeToTerms" class="mt-1 w-4 h-4 rounded accent-emerald-500">
+           <label for="terms" class="text-sm text-gray-600">
+             {{ 'register.terms' | translate }} <a href="#" class="text-emerald-600 hover:underline">{{ 'register.termsLinks.service' | translate }}</a> and <a href="#" class="text-emerald-600 hover:underline">{{ 'register.termsLinks.privacy' | translate }}</a>
+           </label>
+         </div>
+         @if (registerForm.get('agreeToTerms')?.invalid && registerForm.get('agreeToTerms')?.touched) {
+           <p class="text-red-500 text-sm">{{ 'register.error.terms' | translate }}</p>
+         }
+          
+         <button type="submit" [disabled]="registerForm.invalid" class="w-full btn-primary bg-gradient-to-r from-[#10b981] to-emerald-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50">
+           {{ 'register.btn.create' | translate }}
+         </button>
       </form>
-
-      <div class="mt-6 text-center">
-        <p class="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-4">Or sign up with</p>
-        <div class="flex justify-center gap-4">
-          <button class="w-14 h-14 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center text-2xl hover:border-emerald-400 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-            <span class="text-red-500 font-bold">G</span>
-          </button>
-          <button class="w-14 h-14 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center text-2xl hover:border-emerald-400 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-            <span class="font-bold"></span>
-          </button>
-        </div>
-      </div>
-
+ 
       <p class="text-center text-sm mt-6 text-gray-600">
-        Already have an account? 
-        <a routerLink="/login" class="text-emerald-600 font-bold hover:text-emerald-700 transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300 hover:after:w-full">
-          Sign in
-        </a>
-      </p>
-    </div>
-  </main>
+         {{ 'register.login.prompt' | translate }} 
+         <a routerLink="/login" class="text-emerald-600 font-bold hover:text-emerald-700 transition-colors relative after:content-[''] after:absolute after:bottom-0 after:start-0 after:w-0 after:h-0.5 after:bg-emerald-600 after:transition-all after:duration-300 hover:after:w-full">
+           {{ 'register.btn.signIn' | translate }}
+         </a>
+       </p>
+     </div>
+   </main>
 
-  <footer class="text-sm text-gray-500 flex items-center justify-center gap-2 animate-fade-in">
-    <div class="w-6 h-6 bg-gradient-to-br from-[#0e4d3a] to-emerald-500 rounded-full text-white flex items-center justify-center text-xs font-bold">B</div>
-    <p>© 2024 All rights reserved BerryBeat</p>
-  </footer>
+   <footer class="text-sm text-gray-500 flex items-center justify-center gap-2 animate-fade-in">
+     <div class="w-6 h-6 bg-gradient-to-br from-[#0e4d3a] to-emerald-500 rounded-full text-white flex items-center justify-center text-xs font-bold">B</div>
+     <p>{{ 'footer.copyright' | translate }}</p>
+   </footer>
 </div>

@@ -1,0 +1,242 @@
+{
+  "header": {
+    "brand": "BerryBeat",
+    "nav": {
+      "home": "Home",
+      "about": "About us",
+      "blog": "Blog"
+    },
+    "lang": {
+      "en": "English",
+      "ar": "العربية"
+    },
+    "btn": {
+      "signup": "Sign Up",
+      "logout": "Logout"
+    }
+  },
+  "login": {
+    "welcome": "Welcome Back",
+    "subtitle": "Sign in to continue to BerryBeat",
+    "placeholder": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "forgotPassword": "Forgot password?",
+    "btn": {
+      "signIn": "Sign In",
+      "signUp": "Sign up"
+    },
+    "social": {
+      "title": "Or continue with"
+    },
+    "signup": {
+      "prompt": "Don't have an account?"
+    },
+    "error": {
+      "loginFailed": "Login failed"
+    }
+  },
+  "register": {
+    "title": "Create Account",
+    "subtitle": "Join BerryBeat and start detecting",
+    "placeholder": {
+      "fullName": "Full Name",
+      "userName": "Username",
+      "email": "Email",
+      "address": "Address (Optional)",
+      "country": "Country (Optional)",
+      "phone": "Phone Number (Optional)",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "error": {
+      "fullName": "Full name must be at least 3 characters",
+      "userName": "Username must be at least 3 characters",
+      "email": "Please enter a valid email",
+       "password": "Password must be at least 8 characters and include an uppercase letter, a number, and a special character (@, #, $, etc.)",
+      "confirmPassword": "Please confirm your password",
+      "terms": "You must agree to the terms",
+      "passwordMismatch": "Passwords do not match",
+      "unknown": "Unknown error",
+      "unexpected": "An unexpected error occurred"
+    },
+    "terms": "I agree to the Terms of Service and Privacy Policy",
+    "termsLinks": {
+      "service": "Terms of Service",
+      "privacy": "Privacy Policy"
+    },
+    "btn": {
+      "create": "Create Account",
+      "signIn": "Sign in"
+    },
+    "success": "Registration successful! Please sign in.",
+    "failed": "Registration failed",
+    "social": {
+      "title": "Or sign up with"
+    },
+    "login": {
+      "prompt": "Already have an account?"
+    }
+  },
+  "forgotPassword": {
+    "title": {
+      "step1": "Forgot Password",
+      "step2": "Verify Code"
+    },
+    "subtitle": {
+      "step1": "Enter your email to receive a reset code",
+      "step2": "Enter the code sent to your email"
+    },
+    "placeholder": {
+      "email": "Email Address",
+      "code": "6-Digit Code"
+    },
+    "btn": {
+      "sending": "Sending...",
+      "sendCode": "Send Reset Code",
+      "verifying": "Verifying...",
+      "verifyCode": "Verify Code",
+      "changeEmail": "← Change Email",
+      "backToLogin": "Back to Login"
+    },
+    "login": {
+      "prompt": "Remembered your password?"
+    },
+    "messages": {
+      "codeSent": "Reset code sent to your email!",
+      "sendFailed": "Failed to send reset code. Please try again.",
+      "codeVerified": "Code verified successfully!",
+      "invalidCode": "Invalid reset code. Please try again."
+    }
+  },
+  "resetPassword": {
+    "title": "New Password",
+    "subtitle": "Create a strong new password",
+    "placeholder": {
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password"
+    },
+    "btn": {
+      "updating": "Updating...",
+      "reset": "Reset Password",
+      "backToLogin": "Back to Login"
+    },
+    "login": {
+      "prompt": "Remembered your password?"
+    },
+    "messages": {
+      "success": "Password reset successful! You can now login.",
+      "failed": "Failed to reset password. Please try again.",
+      "invalidRequest": "Invalid request. Please start the forgot password process again."
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "🍓 AI-Powered Detection",
+      "title": "Protect Your Strawberries with AI",
+      "subtitle": "Detect diseases, identify nutrient deficiencies, and get instant treatment recommendations for your strawberry plants using cutting-edge artificial intelligence.",
+      "btn": {
+        "start": "Start Detection",
+        "learn": "Learn More"
+      },
+      "uploadPrompt": "Upload an image to begin analysis"
+    },
+    "stats": {
+      "accuracy": "Accuracy Rate",
+      "diseases": "Diseases Detected",
+      "plants": "Images Analyzed",
+      "ai": "AI Available"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Three simple steps to protect your strawberry plants",
+      "step1": {
+        "title": "Upload Image",
+        "desc": "Take a photo of your strawberry plant and upload it to our platform"
+      },
+      "step2": {
+        "title": "AI Analysis",
+        "desc": "Our AI analyzes the image to detect diseases and deficiencies"
+      },
+      "step3": {
+        "title": "Get Results",
+        "desc": "Receive instant diagnosis with detailed treatment recommendations"
+      }
+    }
+  },
+  "about": {
+    "badge": "About Us",
+    "title": "About BerryBeat",
+    "hero": {
+      "title": "The system that applies artificial intelligence in agriculture",
+      "subtitle": "Through this work, we seek smarter farming practices, improved crop quality, and reduced agricultural losses. Our AI-powered platform helps farmers detect strawberry diseases early and provides actionable treatment recommendations.",
+      "smartAg": "Smart Agriculture",
+      "poweredByAi": "Powered by AI"
+    },
+    "features": {
+      "earlyDetection": "Early disease detection",
+      "instantAnalysis": "Instant AI-powered analysis",
+      "treatmentGuides": "Detailed treatment guides"
+    },
+    "btn": {
+      "upload": "Upload Image"
+    },
+    "stats": {
+      "accuracy": "Accuracy",
+      "diseases": "Diseases"
+    }
+  },
+  "blog": {
+    "badge": "Features",
+    "title": "Powerful Features",
+    "subtitle": "Comprehensive AI-powered disease detection and treatment recommendations",
+    "feature1": {
+      "badge": "Early Detection",
+      "title": "Detect Problems Early",
+      "desc": "We detect strawberry diseases and nutrient deficiencies at an early stage before they spread and cause serious damage."
+    },
+    "feature2": {
+      "badge": "AI Diagnosis",
+      "title": "Accurate Analysis",
+      "desc": "Upload a plant image and our AI analyzes the symptoms to identify the exact problem quickly and accurately."
+    },
+    "feature3": {
+      "badge": "Treatment",
+      "title": "Ready Solutions",
+      "desc": "Once the issue is detected, we provide clear, ready-to-apply treatment recommendations to restore plant health."
+    }
+  },
+  "upload": {
+    "badge": "AI Analysis",
+    "title": "Upload Image",
+    "subtitle": "Detect strawberry diseases and get instant analysis",
+    "dropzone": {
+      "title": "Drop your image here",
+      "subtitle": "or click to browse from your device"
+    },
+    "btn": {
+      "browse": "Browse Files",
+      "change": "Change Image",
+      "analyze": "Analyze Image",
+      "report": "View Full Report"
+    },
+    "supportedFormats": "Supports: JPG, PNG, WEBP",
+    "status": {
+      "ready": "Ready"
+    },
+    "analyzing": {
+      "title": "Analyzing your image...",
+      "subtitle": "Our AI is detecting potential issues"
+    },
+    "result": {
+      "title": "Analysis Complete",
+      "statusLabel": "Status:",
+      "confidenceLabel": "Confidence:",
+      "recommendationLabel": "Recommendation:"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 All rights reserved BerryBeat"
+  }
+}

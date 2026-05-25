@@ -1,0 +1,991 @@
+openapi: 3.0.0
+info:
+  title: SchoolProject API
+  version: 1.0.0
+  description: |
+    SchoolProject .NET Core Web API for managing school system.
+    This API provides authentication, user management, role/claim authorization, and email services.
+  contact:
+    name: SchoolProject Support
+    email: support@schoolproject.com
+
+servers:
+  - url: https://localhost:7001
+    description: Development server
+  - url: https://api.schoolproject.com
+    description: Production server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/Authentication/SignIn:
+    post:
+      summary: User sign in
+      description: Authenticates a user and returns JWT access token with refresh token
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInRequest'
+            examples:
+              signin:
+                summary: Sign in example
+                value:
+                  email: user@example.com
+                  password: Password123!
+      responses:
+        '200':
+          description: Sign in successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              examples:
+                success:
+                  summary: Successful sign in
+                  value:
+                    succeeded: true
+                    message: "Login successful"
+                    data:
+                      accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      refreshToken:
+                        userName: "user@example.com"
+                        tokenString: "refresh-token-guid"
+                        expireAt: "2026-04-25T15:30:00Z"
+                    errors: null
+                    statusCode: 200
+        '400':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - invalid email or password
+
+    /api/Authentication/Register:
+    post:
+      summary: User registration
+      description: Registers a new user and returns JWT access token with refresh token
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+            examples:
+              register:
+                summary: Registration example
+                value:
+                  fullName: John Doe
+                  userName: johndoe
+                  email: user@example.com
+                  address: 123 Main St
+                  country: USA
+                  phoneNumber: "+1234567890"
+                  password: Password123!
+                  confirmPassword: Password123!
+      responses:
+        '200':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              examples:
+                success:
+                  summary: Successful registration
+                  value:
+                    succeeded: true
+                    message: "Registration successful"
+                    data:
+                      accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      refreshToken:
+                        userName: "user@example.com"
+                        tokenString: "refresh-token-guid"
+                        expireAt: "2026-04-25T15:30:00Z"
+                    errors: null
+                    statusCode: 200
+        '400':
+          description: Invalid registration data or user already exists
+
+  /api/Authentication/Refresh-Token:
+    post:
+      summary: Refresh JWT token
+      description: Uses refresh token to obtain a new access token
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid refresh token
+        '401':
+          description: Refresh token expired or invalid
+
+  /api/Authentication/Validate-Token:
+    get:
+      summary: Validate token
+      description: Validates if the current JWT token is valid
+      tags: [Authentication]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateTokenResponse'
+        '401':
+          description: Token is invalid or expired
+
+  /api/Authentication/ConfirmEmail:
+    get:
+      summary: Confirm email
+      description: Confirms user's email address using token
+      tags: [Authentication]
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email confirmed successfully
+        '400':
+          description: Invalid token or user ID
+
+  /api/Authentication/SendResetPasswordCode:
+    post:
+      summary: Send reset password code
+      description: Sends a password reset code to user's email
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendResetPasswordRequest'
+      responses:
+        '200':
+          description: Reset code sent successfully
+        '400':
+          description: User not found
+
+  /api/Authentication/ConfirmResetPasswordCode:
+    get:
+      summary: Confirm reset password code
+      description: Validates the password reset code
+      tags: [Authentication]
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Code confirmed successfully
+        '400':
+          description: Invalid code
+
+  /api/Authentication/ResetPassword:
+    post:
+      summary: Reset password
+      description: Resets user's password using the confirmed code
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password reset successful
+        '400':
+          description: Invalid request
+
+  /api/AuthorizationRouting/Roles/Create:
+    post:
+      summary: Create role
+      description: Creates a new role (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoleRequest'
+      responses:
+        '200':
+          description: Role created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+        '400':
+          description: Invalid role name or role already exists
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/AuthorizationRouting/Roles/Edit:
+    post:
+      summary: Edit role
+      description: Updates an existing role (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditRoleRequest'
+      responses:
+        '200':
+          description: Role updated successfully
+        '400':
+          description: Role not found or invalid data
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/AuthorizationRouting/Roles/Delete/{id}:
+    delete:
+      summary: Delete role
+      description: Deletes a role by ID (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Role deleted successfully
+        '400':
+          description: Role not found
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/AuthorizationRouting/Roles/Role-List:
+    get:
+      summary: List all roles
+      description: Retrieves all roles (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Roles retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleResponse'
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/AuthorizationRouting/Roles/Role-By-Id/{id}:
+    get:
+      summary: Get role by ID
+      description: Retrieves a specific role by ID (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Role retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+        '404':
+          description: Role not found
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/AuthorizationRouting/Roles/Manage-User-Roles/{userId}:
+    get:
+      summary: Get user roles
+      description: Retrieves all roles assigned to a user (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User roles retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRolesResponse'
+        '404':
+          description: User not found
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/AuthorizationRouting/Roles/Update-User-Roles:
+    put:
+      summary: Update user roles
+      description: Updates roles for a user (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRolesRequest'
+      responses:
+        '200':
+          description: User roles updated successfully
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/AuthorizationRouting/Claims/Manage-User-Claims/{userId}:
+    get:
+      summary: Get user claims
+      description: Retrieves all claims assigned to a user (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User claims retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserClaimsResponse'
+        '404':
+          description: User not found
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/AuthorizationRouting/Claims/Update-User-Claims:
+    put:
+      summary: Update user claims
+      description: Updates claims for a user (Admin only)
+      tags: [Authorization]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserClaimsRequest'
+      responses:
+        '200':
+          description: User claims updated successfully
+        '400':
+          description: Invalid request
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/User/Create:
+    post:
+      summary: Create user
+      description: Creates a new user (Admin only)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '200':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid user data or user already exists
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/User/Paginated:
+    get:
+      summary: Get paginated user list
+      description: Retrieves a paginated list of users (Admin only)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserResponse'
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/User/{id}:
+    get:
+      summary: Get user by ID
+      description: Retrieves a specific user by ID (Admin or own profile)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '404':
+          description: User not found
+        '403':
+          description: Forbidden
+
+  /api/User/Edit:
+    put:
+      summary: Edit user
+      description: Updates user information (Admin or own profile)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditUserRequest'
+      responses:
+        '200':
+          description: User updated successfully
+        '400':
+          description: Invalid user data
+        '404':
+          description: User not found
+
+  /api/User/{id}:
+    delete:
+      summary: Delete user
+      description: Deletes a user by ID (Admin only)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User deleted successfully
+        '404':
+          description: User not found
+        '403':
+          description: Forbidden - Admin role required
+
+  /api/User/Change-Password:
+    put:
+      summary: Change password
+      description: Changes user's password (Admin or own profile)
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: Password changed successfully
+        '400':
+          description: Invalid password data
+        '401':
+          description: Current password is incorrect
+
+  /api/EmailsRoute/SendEmail:
+    post:
+      summary: Send email
+      description: Sends an email (Admin or User)
+      tags: [Emails]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailRequest'
+      responses:
+        '200':
+          description: Email sent successfully
+        '400':
+          description: Invalid email data
+        '403':
+          description: Forbidden
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from /api/Authentication/SignIn
+
+  schemas:
+    Response:
+      type: object
+      properties:
+        succeeded:
+          type: boolean
+          description: Indicates if the request succeeded
+        message:
+          type: string
+          description: Response message
+        data:
+          description: Response data (type varies by endpoint)
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages if any
+        statusCode:
+          type: integer
+          description: HTTP status code
+      required:
+        - succeeded
+        - message
+        - statusCode
+
+    SignInRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        password:
+          type: string
+          format: password
+          example: Password123!
+      required:
+        - email
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        succeeded:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            accessToken:
+              type: string
+              description: JWT access token
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+            refreshToken:
+              $ref: '#/components/schemas/RefreshTokenData'
+        errors:
+          type: array
+          items:
+            type: string
+        statusCode:
+          type: integer
+
+    RefreshTokenData:
+      type: object
+      properties:
+        userName:
+          type: string
+          example: user@example.com
+        tokenString:
+          type: string
+          description: Refresh token string
+        expireAt:
+          type: string
+          format: date-time
+          example: "2026-04-25T15:30:00Z"
+      required:
+        - userName
+        - tokenString
+        - expireAt
+
+    RefreshTokenRequest:
+      type: object
+      properties:
+        tokenString:
+          type: string
+          description: The refresh token string
+      required:
+        - tokenString
+
+    ValidateTokenResponse:
+      type: object
+      properties:
+        succeeded:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            isValid:
+              type: boolean
+            userId:
+              type: string
+            email:
+              type: string
+        statusCode:
+          type: integer
+
+    SendResetPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+
+    ResetPasswordRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        code:
+          type: string
+        newPassword:
+          type: string
+          format: password
+      required:
+        - userId
+        - code
+        - newPassword
+
+    CreateRoleRequest:
+      type: object
+      properties:
+        roleName:
+          type: string
+          example: Administrator
+      required:
+        - roleName
+
+    EditRoleRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        roleName:
+          type: string
+      required:
+        - id
+        - roleName
+
+    RoleResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        roleName:
+          type: string
+        users:
+          type: array
+          items:
+            type: string
+          description: List of user IDs assigned to this role
+
+    UpdateUserRolesRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+      required:
+        - userId
+        - roles
+
+    UserRolesResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+
+    UpdateUserClaimsRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClaimItem'
+      required:
+        - userId
+        - claims
+
+    ClaimItem:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Permission
+        value:
+          type: string
+          example: CanEditUsers
+      required:
+        - type
+        - value
+
+    UserClaimsResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClaimItem'
+
+    CreateUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        userName:
+          type: string
+        password:
+          type: string
+          format: password
+        confirmPassword:
+          type: string
+          format: password
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - email
+        - userName
+        - password
+        - confirmPassword
+
+    EditUserRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        userName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - id
+        - email
+        - userName
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        userName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        emailConfirmed:
+          type: boolean
+        roles:
+          type: array
+          items:
+            type: string
+
+    ChangePasswordRequest:
+      type: object
+      properties:
+        currentPassword:
+          type: string
+          format: password
+        newPassword:
+          type: string
+          format: password
+        confirmNewPassword:
+          type: string
+          format: password
+      required:
+        - currentPassword
+        - newPassword
+        - confirmNewPassword
+
+    SendEmailRequest:
+      type: object
+      properties:
+        to:
+          type: string
+          format: email
+        subject:
+          type: string
+        body:
+          type: string
+        isHtml:
+          type: boolean
+          default: false
+      required:
+        - to
+        - subject
+        - body
+
+    PaginatedUserResponse:
+      type: object
+      properties:
+        succeeded:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserResponse'
+            page:
+              type: integer
+            pageSize:
+              type: integer
+            totalCount:
+              type: integer
+            totalPages:
+              type: integer
+        errors:
+          type: array
+          items:
+            type: string
+        statusCode:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      properties:
+        succeeded:
+          type: boolean
+          default: false
+        message:
+          type: string
+        data:
+          type: object
+          nullable: true
+        errors:
+          type: array
+          items:
+            type: string
+        statusCode:
+          type: integer
+
+    PaginationRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          default: 1
+          minimum: 1
+        pageSize:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100

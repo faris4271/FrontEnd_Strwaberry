@@ -1,0 +1,7 @@
+export interface ApiResponse<T> {
+  succeeded: boolean;
+  message: string;
+  data: T;
+  errors: string[] | null;
+  statusCode: number;
+}
